@@ -7,8 +7,15 @@ import BookTicket from "./components/ticket-comps/BookTicket";
 import MovieList from "./components/ticket-comps/MovieList";
 import MovieDetails from "./components/ticket-comps/MovieDetails";
 import Payment from "./components/ticket-comps/Payment";
+import Login from "./components/login-signup/Login";
+import { useSelector } from "react-redux";
+import Profile from "./components/Profile";
+import RequireAuth from "./utils/RequireAuth";
+import Signup from "./components/login-signup/Signup";
 
 function App() {
+	const state = useSelector((store) => store.logging);
+
 	return (
 		<>
 			<Navbar></Navbar>
@@ -26,6 +33,16 @@ function App() {
 						element={<Payment></Payment>}
 					></Route>
 				</Route>
+				<Route path="/login" element={<Login></Login>}></Route>
+				<Route path="/signup" element={<Signup></Signup>}></Route>
+				<Route
+					path="/profile"
+					element={
+						<RequireAuth>
+							<Profile></Profile>
+						</RequireAuth>
+					}
+				></Route>
 			</Routes>
 		</>
 	);

@@ -1,20 +1,25 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
 import SeatingArrangement from "./SeatingArrangement";
 import { Button } from "@mui/material";
-import { useLocation, useNavigate } from "react-router-dom";
+import { Navigate, useLocation, useNavigate } from "react-router-dom";
 import { SelectedSeatsContext } from "./BookTicket";
+import { useSelector } from "react-redux";
 
 const MovieDetails = () => {
 	const [movieDetails, setMovieDetails] = useState(null);
-	const navigate = useNavigate();
-	const location = useLocation();
 	const { selectedSeats, changeSelectedSeats } =
 		useContext(SelectedSeatsContext);
 	const userSelectedSeats = useRef(selectedSeats).current;
+	const state = useSelector((store) => store.logging);
+	const navigate = useNavigate();
+	const location = useLocation();
 
-	console.log(selectedSeats);
-
-	const handleClick = () => {
+	const proceedToPay = () => {
+		if (!state.token) {
+			return navigate("/login", {
+				state: { redirect: location.pathname },
+			});
+		}
 		changeSelectedSeats(userSelectedSeats);
 		const navigateToPayment = `${location.pathname}/payment`;
 		navigate(navigateToPayment);
@@ -50,7 +55,7 @@ const MovieDetails = () => {
 						userSelectedSeats={userSelectedSeats}
 					></SeatingArrangement>
 
-					<Button onClick={handleClick}>Proceed to payment</Button>
+					<Button onClick={proceedToPay}>Proceed to payment</Button>
 				</>
 			)}
 		</>

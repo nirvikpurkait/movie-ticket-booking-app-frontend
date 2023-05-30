@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Table, TableBody, Checkbox } from "@mui/material";
+import { SelectedSeatsContext } from "./BookTicket";
 
 // parent for seat table
 const SeatingArrangement = ({ row, col, userSelectedSeats }) => {
@@ -41,12 +42,20 @@ const SeatingArrangement = ({ row, col, userSelectedSeats }) => {
 
 // child for above comp
 const SeatsRow = ({ row, colNo, includeOrRemoveSeatNumber }) => {
+	const { selectedSeats } = useContext(SelectedSeatsContext);
+
 	return (
 		<>
 			<tr>
 				{row.map((elem) => (
 					<td key={elem}>
 						<Checkbox
+							// check the check box if the box are selectd previously
+							defaultChecked={
+								selectedSeats.includes(`${elem},${colNo}`)
+									? true
+									: false
+							}
 							inputProps={{
 								"data-row-no": elem,
 								"data-col-no": colNo,

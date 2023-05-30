@@ -1,11 +1,13 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import { SelectedSeatsContext } from "./BookTicket";
 
 const MovieList = () => {
 	const [movies, setMovies] = useState([]);
 	const navigate = useNavigate();
 	const location = useLocation();
 
+	// navigate to movie details page
 	const navigateToMovieDetails = (movieName) => {
 		const locationToNavigate = `${location.pathname}/${movieName
 			.split(" ")
